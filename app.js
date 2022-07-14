@@ -8,12 +8,12 @@ document.addEventListener('DOMContentLoaded' , () => {
     let score = 0
     const colors = [
         'lightblue',
-        'blue',
+        'orange',
         'yellow',
         'green',
         'purple',
         'red',
-        'orange'
+        'blue'
     ]
 
     //tetraminos using a different rotation from guide
