@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded' , () => {
     const iTetromino = [
         [width, width + 1, width + 2, width + 3],
         [2, width + 2, width * 2 + 2, width *3 + 2],
-        [width * 2, width * 2 + 1, width * 2 + 2, width * 2 + 3]
+        [width * 2, width * 2 + 1, width * 2 + 2, width * 2 + 3],
         [1, width + 1, width * 2 + 1, width * 3 + 1]
     ]
     const jTetromino = [
@@ -84,19 +84,20 @@ document.addEventListener('DOMContentLoaded' , () => {
         if(e.keyCode === 37) {
             moveLeft()
         } else if (e.keyCode === 38) {
-            //rotate
+            rotateUp()
         } else if (e.keyCode === 39) {
             moveRight()
         } else if (e.keyCode === 40) {
             //fastfall
-        } else if (e.KeyCode === 90) {
-            //rotate counter clockwise
+        } else if (e.keyCode === 90) {
+            rotateZ()
         } else if (e.keyCode === 32) {
             //harddrop
+            rotateZ()
         }
     }
     document.addEventListener('keyup', control)
-
+    
     //move down function
     function moveDown() {
         undraw()
@@ -112,6 +113,7 @@ document.addEventListener('DOMContentLoaded' , () => {
             current.forEach(index => squares[currentPosition + index].classList.add('taken'))
             random = Math.floor(Math.random() * theTetrominos.length)
             currentPosition = 3
+            currentRotation = 0
             current = theTetrominos[random][currentRotation]
             draw()
         }
@@ -148,8 +150,51 @@ document.addEventListener('DOMContentLoaded' , () => {
     }
 
     //rotate tetrimino
-    function rotate() {
+    function rotateUp() {
         undraw()
-        currentRotation += 1
+        currentRotation ++
+        if(currentRotation === current.length) {
+            currentRotation = 0
+        }
+        //if rotates into wall whwat happens?
+        current = theTetrominos[random][currentRotation]
+    
+        draw()
+    }
+
+    //extra rotation
+    function rotateZ() {
+        undraw()
+        currentRotation -= 1
+        if (currentRotation === -1) {
+            currentRotation = 3
+        }
+
+        current = theTetrominos[random][currentRotation]
+
+        draw()
+    }
+
+    //show up-next tetromino in mini-grid display
+    const displaySquares = document.querySelectorAll('.mini-grid div')
+    const displayWidth = 4
+    let displayIndex = 0
+    
+    //the Tetrominos without rotations
+    const upNextTetrominos = [
+        [width, width + 1, width + 2, width + 3],
+        [width, width + 1, width + 2, 2],
+        [1, 2, width + 1, width + 2],
+        [1, 2, width, width + 1],
+        [1, width, width + 1, width + 2],
+        [0, 1, width + 1, width + 2],
+        [0, width, width + 1, width + 2],
+    ]
+
+    function displayShape() {
+        displayIndexSquares.forEach(square => {
+            square.classList.remove('tetromino')
+        })
+        
     }
 })
