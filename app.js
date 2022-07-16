@@ -73,7 +73,6 @@ document.addEventListener('DOMContentLoaded' , () => {
     let random 
     let current 
     
-
     //draw the first rotation 
     function draw() {
         current.forEach(index => {
@@ -104,13 +103,17 @@ document.addEventListener('DOMContentLoaded' , () => {
             rotateUp()
         } else if (e.keyCode === 39) {
             moveRight()
-        } else if (e.keyCode === 40) {
+        } else if (e.keyCode === 88) {
+            //hard drop
+            clearInterval(timerId)
             undraw()
             while (!current.some(index => squares[currentPosition + index + width].classList.contains('taken'))) {
                 currentPosition += width
             }
             draw()
             freeze()
+            timerId = setInterval(moveDown, 1000)
+
         } else if (e.keyCode === 90) {
             rotateZ()
         } else if (e.keyCode === 32) {
