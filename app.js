@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded' , () => {
     let nextRandom 
     let random 
     let current 
+    
 
     //draw the first rotation 
     function draw() {
@@ -104,16 +105,16 @@ document.addEventListener('DOMContentLoaded' , () => {
         } else if (e.keyCode === 39) {
             moveRight()
         } else if (e.keyCode === 40) {
-            //fastfall
-        } else if (e.keyCode === 90) {
-            rotateZ()
-        } else if (e.keyCode === 32) {
             undraw()
             while (!current.some(index => squares[currentPosition + index + width].classList.contains('taken'))) {
                 currentPosition += width
             }
             draw()
             freeze()
+        } else if (e.keyCode === 90) {
+            rotateZ()
+        } else if (e.keyCode === 32) {
+            
         }
     }
     // function holdPress(e) {
@@ -127,11 +128,11 @@ document.addEventListener('DOMContentLoaded' , () => {
     
     //move down function
     function moveDown() {
+        freeze()
         undraw()
         currentPosition += width
         draw()
         //freeze in move down to check every second/move
-        freeze()
     }
 
     //freeze function
@@ -186,6 +187,8 @@ document.addEventListener('DOMContentLoaded' , () => {
     function rotateUp() {
         undraw()
         currentRotation ++
+
+
         //edge cases: iTetrimino at edge
         if (random === 0) {
             if (current.every(index => (currentPosition + index) % width === width - 1 || (currentPosition + index) % width === 0)) {
@@ -216,21 +219,24 @@ document.addEventListener('DOMContentLoaded' , () => {
                 currentRotation --
             }
         }
-        //edge cases: rotating into blocks
+        
 
         if(currentRotation === current.length) {
             currentRotation = 0
         }
-        //if rotates into wall whwat happens?
         current = theTetrominos[random][currentRotation]
     
         draw()
+
+        //freeze for edge cases
+        freeze()
     }
 
     //extra rotation
     function rotateZ() {
         undraw()
         currentRotation -= 1
+        
         //edge cases: iTetrimino at edge
         if (random === 0) {
             if (current.every(index => (currentPosition + index) % width === width - 1 || (currentPosition + index) % width === 0)) {
@@ -269,6 +275,9 @@ document.addEventListener('DOMContentLoaded' , () => {
         current = theTetrominos[random][currentRotation]
 
         draw()
+
+        //freeze for edge cases
+        freeze()
     }
 
     //show up-next tetromino in mini-grid display
@@ -312,7 +321,7 @@ document.addEventListener('DOMContentLoaded' , () => {
                 current = theTetrominos[random][0]
             }
             draw()
-            timerId = setInterval(moveDown, 500)
+            timerId = setInterval(moveDown, 1000)
             
             displayShape()
         }
