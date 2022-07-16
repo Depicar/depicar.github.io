@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded' , () => {
     //     }
     // }
     document.addEventListener('keyup', control)
-    //document.addEventListener('keypress', holdPress)
+    //document.addEventListener('keydown', holdPress)
     
     //move down function
     function moveDown() {
@@ -159,6 +159,7 @@ document.addEventListener('DOMContentLoaded' , () => {
         }
 
         draw()
+        freeze()
     }
 
     //move tetrimino left unless at edge
@@ -174,6 +175,7 @@ document.addEventListener('DOMContentLoaded' , () => {
         }
         
         draw()
+        freeze()
     }
 
     //rotate tetrimino
