@@ -108,8 +108,12 @@ document.addEventListener('DOMContentLoaded' , () => {
         } else if (e.keyCode === 90) {
             rotateZ()
         } else if (e.keyCode === 32) {
-            //harddrop
-            rotateZ()
+            undraw()
+            while (!current.some(index => squares[currentPosition + index + width].classList.contains('taken'))) {
+                currentPosition += width
+            }
+            draw()
+            freeze()
         }
     }
     // function holdPress(e) {
@@ -182,6 +186,38 @@ document.addEventListener('DOMContentLoaded' , () => {
     function rotateUp() {
         undraw()
         currentRotation ++
+        //edge cases: iTetrimino at edge
+        if (random === 0) {
+            if (current.every(index => (currentPosition + index) % width === width - 1 || (currentPosition + index) % width === 0)) {
+                currentRotation --
+            }
+        }
+
+        //edge cases: j and l tetriminos
+        else if (random === 1 || random === 6) {
+            let counter = 0
+            current.forEach(index => {
+                if ((currentPosition + index) % width === width - 1 || (currentPosition + index) % width === 0) {
+                    counter ++
+                }
+            })
+            if (counter >= 3) {
+                currentRotation --
+            }
+        }
+        else {
+            let counter = 0
+            current.forEach(index => {
+                if ((currentPosition + index) % width === width - 1 || (currentPosition + index) % width === 0) {
+                    counter ++
+                }
+            })
+            if (counter >= 2) {
+                currentRotation --
+            }
+        }
+        //edge cases: rotating into blocks
+
         if(currentRotation === current.length) {
             currentRotation = 0
         }
@@ -195,6 +231,37 @@ document.addEventListener('DOMContentLoaded' , () => {
     function rotateZ() {
         undraw()
         currentRotation -= 1
+        //edge cases: iTetrimino at edge
+        if (random === 0) {
+            if (current.every(index => (currentPosition + index) % width === width - 1 || (currentPosition + index) % width === 0)) {
+                currentRotation ++
+            }
+        }
+
+        //edge cases: j and l tetriminos
+        else if (random === 1 || random === 6) {
+            let counter = 0
+            current.forEach(index => {
+                if ((currentPosition + index) % width === width - 1 || (currentPosition + index) % width === 0) {
+                    counter ++
+                }
+            })
+            if (counter >= 3) {
+                currentRotation ++
+            }
+        }
+        else {
+            let counter = 0
+            current.forEach(index => {
+                if ((currentPosition + index) % width === width - 1 || (currentPosition + index) % width === 0) {
+                    counter ++
+                }
+            })
+            if (counter >= 2) {
+                currentRotation ++
+            }
+        }
+
         if (currentRotation === -1) {
             currentRotation = 3
         }
@@ -245,7 +312,7 @@ document.addEventListener('DOMContentLoaded' , () => {
                 current = theTetrominos[random][0]
             }
             draw()
-            timerId = setInterval(moveDown, 250)
+            timerId = setInterval(moveDown, 500)
             
             displayShape()
         }
