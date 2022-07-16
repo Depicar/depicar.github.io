@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded' , () => {
             rotateUp()
         } else if (e.keyCode === 39) {
             moveRight()
-        } else if (e.keyCode === 88) {
+        } else if (e.keyCode === 32) {
             //hard drop
             clearInterval(timerId)
             undraw()
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded' , () => {
 
         } else if (e.keyCode === 90) {
             rotateZ()
-        } else if (e.keyCode === 32) {
+        } else if (e.keyCode === 88) {
             
         }
     }
@@ -147,9 +147,9 @@ document.addEventListener('DOMContentLoaded' , () => {
             currentPosition = 3
             currentRotation = 0
             current = theTetrominos[random][currentRotation]
+            addScore()
             draw()
             displayShape()
-            addScore()
             gameOver()
         }
     }
