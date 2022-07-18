@@ -1,3 +1,13 @@
+html {
+    display: table;
+    margin: auto;
+}
+
+body {
+    display: table-cell;
+    vertical-align: middle;
+}
+
 .container {
     display: flex;
 }
@@ -31,6 +41,22 @@
 }
 
 .mini-grid div  {
+    border:1px solid darkslategrey;
+    height: 18px;
+    width: 18px;
+}
+
+.hold-grid {
+    margin-top: 100px;
+    margin-left: -80px;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: black;
+}
+
+.hold-grid div  {
     border:1px solid darkslategrey;
     height: 18px;
     width: 18px;

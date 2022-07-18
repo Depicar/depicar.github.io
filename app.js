@@ -72,6 +72,8 @@ document.addEventListener('DOMContentLoaded' , () => {
     let nextRandom 
     let random 
     let current 
+    let held
+    let holdCounter = 0
     
     //draw the first rotation 
     function draw() {
@@ -112,6 +114,8 @@ document.addEventListener('DOMContentLoaded' , () => {
 
         } else if (e.key === "z") {
             rotateZ()
+        } else if (e.key === "c") {
+            hold()
         }
     }   
 
@@ -156,6 +160,9 @@ document.addEventListener('DOMContentLoaded' , () => {
             currentPosition = 3
             currentRotation = 0
             current = theTetrominos[random][currentRotation]
+
+            //hold counter resets
+            holdCounter = 0
             addScore()
             draw()
             displayShape()
@@ -320,6 +327,35 @@ document.addEventListener('DOMContentLoaded' , () => {
         
     }
 
+
+    //same code for held
+    const displaySquaresHeld = document.querySelectorAll('.hold-grid div')
+    const displayWidthHeld = 4
+    let displayIndexHeld = 0
+
+
+    const HeldTetrominos = [
+        [displayWidthHeld, displayWidthHeld + 1, displayWidthHeld + 2, displayWidthHeld + 3],
+        [displayWidthHeld, displayWidthHeld + 1, displayWidthHeld + 2, 2],
+        [1, 2, displayWidthHeld + 1, displayWidthHeld + 2],
+        [1, 2, displayWidthHeld, displayWidthHeld + 1],
+        [1, displayWidthHeld, displayWidthHeld + 1, displayWidthHeld + 2],
+        [0, 1, displayWidthHeld + 1, displayWidthHeld + 2],
+        [0, displayWidthHeld, displayWidthHeld + 1, displayWidthHeld + 2],
+    ]
+
+    function displayShapeHeld() {
+        displaySquaresHeld.forEach(square => {
+            square.classList.remove('tetromino')
+            square.style.backgroundColor = ''
+        })
+        upNextTetrominos[held].forEach(index => {
+            displaySquaresHeld[displayIndexHeld + index].classList.add('tetromino')
+            displaySquaresHeld[displayIndexHeld + index].style.backgroundColor = colors[held]
+        })
+        
+    }
+
     startBtn.addEventListener('click', () => {
         //fixed original pause bug
         if (timerId) {
@@ -338,6 +374,38 @@ document.addEventListener('DOMContentLoaded' , () => {
             displayShape()
         }
     })
+
+    //hold piece
+    function hold() {
+        if (held === random) {
+            holdCounter += 1
+            return
+        } else if (held && holdCounter === 0) {
+            holdCounter += 1
+            undraw()
+            let temp = random
+            random = held
+            held = temp
+            currentPosition = 3
+            current = theTetrominos[random][0]
+            draw()
+            displayShapeHeld() 
+        } else if (holdCounter === 1) {
+            return
+        } else {
+            holdCounter += 1
+            undraw()
+            held = random
+            random = nextRandom
+            nextRandom = Math.floor(Math.random() * theTetrominos.length)
+            currentPosition = 3
+            current = theTetrominos[random][0]
+            draw()
+            displayShape()
+            displayShapeHeld()
+        }
+
+    }
 
     //add score
     function addScore() {
