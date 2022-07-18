@@ -97,13 +97,9 @@ document.addEventListener('DOMContentLoaded' , () => {
 
     //assign functions to keyCodes, added more controls than tutorial add hold
     function control(e) {
-        if(e.keyCode === 37) {
-            moveLeft()
-        } else if (e.keyCode === 38) {
+        if (e.key === "ArrowUp") {
             rotateUp()
-        } else if (e.keyCode === 39) {
-            moveRight()
-        } else if (e.keyCode === 32) {
+        } else if (e.key === " ") {
             //hard drop
             clearInterval(timerId)
             undraw()
@@ -114,20 +110,33 @@ document.addEventListener('DOMContentLoaded' , () => {
             freeze()
             timerId = setInterval(moveDown, 1000)
 
-        } else if (e.keyCode === 90) {
+        } else if (e.key === "z") {
             rotateZ()
-        } else if (e.keyCode === 88) {
-            
         }
-    }
+    }   
+
     // function holdPress(e) {
-    //     if(e.keyCode === 40) {
-    //         //soft drop
-    //         timerId = setInterval(moveDown, 200)
-    //     }
+    //     if (e.keyCode === 39) {
+    //         moveRight()
     // }
     document.addEventListener('keyup', control)
-    //document.addEventListener('keydown', holdPress)
+    document.addEventListener('keydown', event => {
+        if (event.key === "ArrowRight") {
+            moveRight()
+        }
+        else if(event.key === "ArrowLeft") {
+            moveLeft()
+        }
+        else if (event.key === "ArrowDown"){
+            clearInterval(timerId)
+            freeze()
+            undraw()
+            currentPosition += width
+            draw()
+            timerId = setInterval(moveDown, 1000)
+        }
+    })
+
     
     //move down function
     function moveDown() {
