@@ -29,11 +29,12 @@ body {
     border:1px solid rgb(39, 39, 39);
     height: 18px;
     width: 18px;
-    
 }
 
 .tetromino {
     background-color: white;
+    background-image: url("images/peeposmall.png");
+
 }
 
 .mini-grid {
