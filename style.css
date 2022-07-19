@@ -1,3 +1,7 @@
+html, body {
+    height: 80%;
+}
+
 html {
     display: table;
     margin: auto;
@@ -6,6 +10,7 @@ html {
 body {
     display: table-cell;
     vertical-align: middle;
+    background-color: black;
 }
 
 .container {
@@ -21,7 +26,7 @@ body {
 }
 
 .grid div {
-    border:1px solid darkslategrey;
+    border:1px solid rgb(39, 39, 39);
     height: 18px;
     width: 18px;
     
@@ -41,10 +46,29 @@ body {
 }
 
 .mini-grid div  {
-    border:1px solid darkslategrey;
+    border:1px solid rgb(39, 39, 39);
     height: 18px;
     width: 18px;
 }
+
+#start-button {
+    font-family: verdana;
+    font-size: large;
+    color: white;
+    background-color: rgb(39, 39, 39);
+    margin-bottom: 20px;
+    margin-left: 40px;
+    border: 1px solid rgb(39, 39, 39);
+}
+
+#score {
+    font-family: verdana;
+    font-size: large;
+    color: whites;
+    background-color: black;
+    margin-bottom: 50px;
+}
+
 
 .hold-grid {
     margin-top: 100px;
@@ -57,7 +81,7 @@ body {
 }
 
 .hold-grid div  {
-    border:1px solid darkslategrey;
+    border:1px solid rgb(39, 39, 39);
     height: 18px;
     width: 18px;
 }
