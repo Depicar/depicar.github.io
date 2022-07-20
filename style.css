@@ -37,6 +37,10 @@ body {
 
 }
 
+.shadow {
+    background-image: url("images/peeposmall.png");
+}
+
 .mini-grid {
     margin-left: 50px;
     width: 80px;

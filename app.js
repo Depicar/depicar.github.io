@@ -154,6 +154,8 @@ document.addEventListener('DOMContentLoaded' , () => {
     //freeze function
     function freeze() {
         if(current.some(index => squares[currentPosition + index + width].classList.contains('taken'))) {
+            // undrawShadow() maybe remove shadow class
+            
             current.forEach(index => squares[currentPosition + index].classList.add('taken'))
             random = nextRandom
             nextRandom = Math.floor(Math.random() * theTetrominos.length)
@@ -165,6 +167,8 @@ document.addEventListener('DOMContentLoaded' , () => {
             holdCounter = 0
             addScore()
             draw()
+            
+            drawShadow()
             displayShape()
             gameOver()
         }
@@ -173,6 +177,7 @@ document.addEventListener('DOMContentLoaded' , () => {
     //move tetrimino left unless at edge
     function moveLeft() {
         undraw()
+        undrawShadow()
         const isAtLeftEdge = current.some(index => (currentPosition + index) % width === 0)
         if (!isAtLeftEdge) {
             currentPosition -= 1
@@ -183,12 +188,14 @@ document.addEventListener('DOMContentLoaded' , () => {
         }
 
         draw()
+        drawShadow()
         freeze()
     }
 
     //move tetrimino left unless at edge
     function moveRight() {
         undraw()
+        undrawShadow()
         const isAtRightEdge = current.some(index => (currentPosition + index) % 10 === width - 1)
         if (!isAtRightEdge) {
             currentPosition += 1
@@ -199,12 +206,14 @@ document.addEventListener('DOMContentLoaded' , () => {
         }
         
         draw()
+        drawShadow()
         freeze()
     }
 
     //rotate tetrimino
     function rotateUp() {
         undraw()
+        undrawShadow()
         currentRotation ++
 
 
@@ -246,6 +255,7 @@ document.addEventListener('DOMContentLoaded' , () => {
         current = theTetrominos[random][currentRotation]
     
         draw()
+        drawShadow()
 
         //freeze for edge cases
         freeze()
@@ -254,6 +264,7 @@ document.addEventListener('DOMContentLoaded' , () => {
     //extra rotation
     function rotateZ() {
         undraw()
+        undrawShadow()
         currentRotation -= 1
         
         //edge cases: iTetrimino at edge
@@ -294,6 +305,7 @@ document.addEventListener('DOMContentLoaded' , () => {
         current = theTetrominos[random][currentRotation]
 
         draw()
+        drawShadow()
 
         //freeze for edge cases
         freeze()
@@ -369,6 +381,7 @@ document.addEventListener('DOMContentLoaded' , () => {
                 current = theTetrominos[random][0]
             }
             draw()
+            drawShadow()
             timerId = setInterval(moveDown, 1000)
             
             displayShape()
@@ -383,24 +396,28 @@ document.addEventListener('DOMContentLoaded' , () => {
         } else if (held && holdCounter === 0) {
             holdCounter += 1
             undraw()
+            undrawShadow()
             let temp = random
             random = held
             held = temp
             currentPosition = 3
             current = theTetrominos[random][0]
             draw()
+            drawShadow()
             displayShapeHeld() 
         } else if (holdCounter === 1) {
             return
         } else {
             holdCounter += 1
             undraw()
+            undrawShadow()
             held = random
             random = nextRandom
             nextRandom = Math.floor(Math.random() * theTetrominos.length)
             currentPosition = 3
             current = theTetrominos[random][0]
             draw()
+            drawShadow()
             displayShape()
             displayShapeHeld()
         }
@@ -427,6 +444,31 @@ document.addEventListener('DOMContentLoaded' , () => {
             }
 
         }
+    }
+
+    let currentShadowPosition
+
+    function drawShadow() {
+        currentShadowPosition = currentPosition
+
+        while (!current.some(index => squares[currentShadowPosition + index + width].classList.contains('taken'))) {
+            currentShadowPosition += width
+        }
+
+        current.forEach(index => {
+            squares[currentShadowPosition + index].classList.add('shadow')
+            //add colorcoding
+            squares[currentShadowPosition + index].style.backgroundColor = colors[random]
+            // squares[currentShadowPosition + index].style.opacity = 0.5
+        })
+    }
+
+    function undrawShadow() {
+        current.forEach(index => {
+            squares[currentShadowPosition + index].classList.remove('shadow')
+            //remove colorcoding
+            squares[currentShadowPosition + index].style.backgroundColor = ''
+        })
     }
 
     //game over
