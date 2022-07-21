@@ -116,6 +116,8 @@ document.addEventListener('DOMContentLoaded' , () => {
             rotateZ()
         } else if (e.key === "c") {
             hold()
+        } else if (e.key === "x") {
+            rotateX()
         }
     }   
 
@@ -124,6 +126,7 @@ document.addEventListener('DOMContentLoaded' , () => {
     //         moveRight()
     // }
     document.addEventListener('keyup', control)
+
     document.addEventListener('keydown', event => {
         if (event.key === "ArrowRight") {
             moveRight()
@@ -154,8 +157,8 @@ document.addEventListener('DOMContentLoaded' , () => {
     //freeze function
     function freeze() {
         if(current.some(index => squares[currentPosition + index + width].classList.contains('taken'))) {
-            // undrawShadow() maybe remove shadow class
-            
+            undrawShadow()
+            draw()
             current.forEach(index => squares[currentPosition + index].classList.add('taken'))
             random = nextRandom
             nextRandom = Math.floor(Math.random() * theTetrominos.length)
@@ -311,6 +314,24 @@ document.addEventListener('DOMContentLoaded' , () => {
         freeze()
     }
 
+    function rotateX() {
+        undraw()
+        undrawShadow()
+
+        currentRotation += 2
+        if (currentRotation >= 4) {
+            currentRotation = currentRotation % 4
+        }
+
+        current = theTetrominos[random][currentRotation]
+
+        draw()
+        drawShadow()
+
+        //freeze for edge cases
+        freeze()
+    }
+
     //show up-next tetromino in mini-grid display
     const displaySquares = document.querySelectorAll('.mini-grid div')
     const displayWidth = 4
@@ -435,6 +456,7 @@ document.addEventListener('DOMContentLoaded' , () => {
                 row.forEach(index => {
                     squares[index].classList.remove('taken')
                     squares[index].classList.remove('tetromino')
+                    squares[index].classList.remove('shadow')
                     squares[index].style.backgroundColor = ''
                 })
                 const squaresRemoved = squares.splice(i, width)

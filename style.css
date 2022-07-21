@@ -33,12 +33,13 @@ body {
 
 .tetromino {
     background-color: white;
-    background-image: url("images/peeposmall.png");
+    background-image: url("images/brick\ actual.png");
 
 }
 
 .shadow {
-    background-image: url("images/peeposmall.png");
+    background-image: url("images/brick\ actual.png");
+    opacity: 0.3;
 }
 
 .mini-grid {
