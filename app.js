@@ -412,10 +412,10 @@ document.addEventListener('DOMContentLoaded' , () => {
     //hold piece
     function hold() {
         if (held === random) {
-            holdCounter += 1
+            holdCounter = 1
             return
-        } else if (held && holdCounter === 0) {
-            holdCounter += 1
+        } else if (held != undefined && holdCounter === 0) {
+            holdCounter = 1
             undraw()
             undrawShadow()
             let temp = random
@@ -429,7 +429,7 @@ document.addEventListener('DOMContentLoaded' , () => {
         } else if (holdCounter === 1) {
             return
         } else {
-            holdCounter += 1
+            holdCounter = 1
             undraw()
             undrawShadow()
             held = random
