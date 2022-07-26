@@ -102,3 +102,24 @@ h3 {
     color: white; 
     font-size: large;
 }
+
+table {
+    margin-top: 200px;
+    margin-left: -100px;
+    border: 1px solid white;
+    border-collapse:collapse;
+}
+
+table th {
+    font-family: verdana;
+    color: white;
+    border: 1px solid white;
+    font-size: large;
+}
+
+table td {
+    font-family: verdana;
+    color:white;
+    border: 1px solid white;
+
+}
