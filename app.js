@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded' , () => {
     const startBtn = document.querySelector('#start-button')
     let timerId
     let score = 0
-    let dead = false
     const colors = [
         'lightblue',
         'orange',
@@ -391,51 +390,30 @@ document.addEventListener('DOMContentLoaded' , () => {
     }
 
     startBtn.addEventListener('click', () => {
-        //fixed original pause bug
-        // if (dead === true) {
-        //     dead = false
-        //     nextRandom = undefined
-        //     random = undefined
-        //     current = undefined
-        //     dead = true
-        //     held = undefined
-        //     holdCounter = 0
-        //     currentPosition = 3
-        //     currentRotation = 0
-
-        //     for (var counter = 0; counter < squares.length; counter++) {
-        //         squares[counter].classList.remove('taken')
-        //         squares[counter].classList.remove('tetromino')
-        //         squares[counter].classList.remove('shadow')
-        //         squares[counter].style.backgroundColor = "black";
-        //     }
-            
-        //     score = 0
-        //     scoreDisplay.innerHTML = score  
-
-            
-        //     nextRandom = Math.floor(Math.random() * theTetrominos.length)
-        //     random = nextRandom
-        //     nextRandom = Math.floor(Math.random() * theTetrominos.length)
-        //     current = theTetrominos[random][0]
-        //     moveDown()
-        //     displayShape()  
-        //     draw()
-        //     drawShadow()
-        //     timerId = setInterval(moveDown, 1000)
-            
-            
-        // }
-
         if (timerId) {
             clearInterval(timerId)
             timerId = null
         } else {
-            if (!nextRandom) {
+            if (nextRandom == undefined) {
+                let counter = 0
+                while (counter < squares.length - width) {
+                    squares[counter].classList.remove('taken')
+                    squares[counter].classList.remove('tetromino')
+                    squares[counter].classList.remove('shadow')
+                    squares[counter].style.backgroundColor = "";
+                    counter += 1
+                }
+                // const removed = squares.splice(0, squares.length)
+                // squares = removed.concat(squares)
+                // squares.forEach(cell => grid.appendChild(cell))
+
                 nextRandom = Math.floor(Math.random() * theTetrominos.length)
                 random = nextRandom
                 nextRandom = Math.floor(Math.random() * theTetrominos.length)
                 current = theTetrominos[random][0]
+                //display score
+                score = 0
+                scoreDisplay.innerHTML = score
             }
             draw()
             drawShadow()
@@ -534,7 +512,13 @@ document.addEventListener('DOMContentLoaded' , () => {
         if(current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
             scoreDisplay.innerHTML = 'end'
             clearInterval(timerId)
-            
+            nextRandom = undefined
+            random = undefined
+            current = undefined
+            held = undefined
+            holdCounter = 0
+            currentPosition = 3
+            currentRotation = 0
         }
     }
 
