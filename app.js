@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded' , () => {
     const scoreDisplay = document.querySelector('#score')
     const startBtn = document.querySelector('#start-button')
     let timerId
+    let highScores = [0, 0, 0, 0]
     let score = 0
     const colors = [
         'lightblue',
@@ -510,6 +511,7 @@ document.addEventListener('DOMContentLoaded' , () => {
     //game over
     function gameOver() {
         if(current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
+            scoreBoard()
             scoreDisplay.innerHTML = 'end'
             clearInterval(timerId)
             nextRandom = undefined
@@ -519,15 +521,34 @@ document.addEventListener('DOMContentLoaded' , () => {
             holdCounter = 0
             currentPosition = 3
             currentRotation = 0
+            
         }
     }
 
     //add score to scoreboard
-    // function scoreBoard() {
-    //     let currScore
-    //     for (let i = 0; i < 4; i++) {
-    //         currScore = document.querySelector(`#hs${i}`)
-    //     }
-    // }
+    function scoreBoard() {
+        if (score >= highScores[0]) {
+            highScores.unshift(score)
+            highScores.pop()
+        }
+        else if (score <= highScores[3]) {
+            return
+        }
+        else {
+            for (let i = 0; i < 3; i++) {
+                if (highScores[i] >= score && highScores[i + 1] <= score) {
+                    highScores.splice(i + 1, 0, score)
+                    highScores.pop()    
+                    break
+                }
+            }
+        }
+        
+        let currScore
+        for (let i = 0; i < 4; i++) {
+            currScore = document.querySelector(`#hs${i}`)
+            currScore.innerHTML = highScores[i]
+        }
+    }
 
 })
