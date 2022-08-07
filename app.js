@@ -175,6 +175,7 @@ document.addEventListener('DOMContentLoaded' , () => {
             drawShadow()
             displayShape()
             gameOver()
+            
         }
     }
 
@@ -466,7 +467,23 @@ document.addEventListener('DOMContentLoaded' , () => {
         for (let i = 0; i < 199; i+=width) {
             const row = [i, i + 1, i + 2, i+3, i+4, i+5, i+6, i+7, i+8, i+9]
             if (row.every(index => squares[index].classList.contains('taken'))) {
-                score += 10
+
+                //adds score based on # of unique colors in cleared row 
+                rowColors = new Set()
+                for (let counter = 0; counter < row.length; counter++) {
+                    rowColors.add(squares[row[counter]].style.backgroundColor)
+                }
+
+                if (rowColors.size === 1) {
+                    score += 50
+                }
+                else if (rowColors.size === 2) {
+                    score += 30
+                }
+                else if (rowColors.size === 3) {
+                    score += 10 
+                }
+
                 scoreDisplay.innerHTML = score
                 row.forEach(index => {
                     squares[index].classList.remove('taken')
